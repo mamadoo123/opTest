@@ -16,15 +16,15 @@
 export default {
     computed:{
         currentTest(){
-            return this.$store.state.currentTest
+            return this.$store.state.currentArabicTest
         },
         tests(){
-            return this.$store.state.allTests
+            return this.$store.state.allArabicTests
         }
     },
     methods:{
         changeTest(event){
-            this.$store.commit('setCurrentTest', event)
+            this.$store.commit('setCurrentArabicTest', event)
         }
     }
 }

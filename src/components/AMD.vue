@@ -3,7 +3,7 @@
         <b-modal v-once id="starter-modal" centered :title="$store.getters.getCurrentTest.name" 
                          ok-only no-close-on-esc no-close-on-backdrop hide-header-close>
                     <div class="container text-center">
-                        <h3 class="my-4">Instructions</h3>
+                        <h3>Instructions</h3>
 
                         <b-list-group class="text-center">
                             <b-list-group-item v-for="(item, index) in instructionItems" :key="item.id">
@@ -16,16 +16,23 @@
         
         <div v-if="!finished && report ===null">
             <div>
-                <p>{{currentTest.instructionMsg}}</p>
-                <b-btn-group fluid>
-                    <b-button style="width:60px" class="mx-2" variant="outline-primary" @click="getNextImage(directions[1])">
-                        <span>{{directions[1]}}</span>
-                    </b-button>
-                    <b-button style="width:60px" class="mx-2" variant="outline-primary" @click="getNextImage(directions[0])">
-                        <span>{{directions[0]}}</span>
-                    </b-button>
-                </b-btn-group>       
-                <img src="../assets/astigmatism.jpg" :style="imgTransform()">
+                <p style="font-size:12px">{{currentTest.instructionMsg}}</p>
+                <hr>
+            <b-button-group fluid>
+                <b-button variant="outline-primary" 
+                    class="mx-2"
+                    style="width:80px"
+                    v-for="decision in decisions"
+                    :key="decision"
+                    @click="getNextImage(decision)"                   
+                >
+                {{decision}}
+                </b-button>
+            </b-button-group>
+                <b-img src="https://www.essilor.com/essilor-content/themes/essilor/img/testvue-dmla.gif" 
+                    :style="{width:'300px', height:'300px'}"
+                    class="py-4">
+                </b-img>
             </div>
             <div>
                 <b-modal v-model="showModal" id="modal-center" 
@@ -38,25 +45,30 @@
             </div>
         </div>
         <div v-else>
-            <p>
-                {{report}}
-            </p>
+            <p>{{report}}</p>
             <b-button class="mx-2 px-5" variant="outline-primary" @click="repeatCurrentTest" >Try Test Agian</b-button>
-            <b-button variant="outline-primary" @click="changeToNextTest" >Go To {{nextTestName}} Test</b-button>
+            <b-button class="px-5" variant="outline-primary" @click="generateUserReport" >General Report</b-button>
+        </div>
+        
+        <div v-if="finishedAll" class="mt-4">
+            <GeneralReport />
         </div>
     </b-container>
 </template>
 <script>
-import testData from '../dataFiles/test-two-data.js'
-
+import testData from '../dataFiles/test-seven-data.js';
+import GeneralReport from './GeneralReport';
 export default {
+    components:{GeneralReport},
     data:function(){
         return{
             currentTest: testData,
-            directions:['no','yes'],
-            count:0,
+            decisions:['yes','no'],
             firstAnswer:'',
-            secondAnswer:''
+            secondAnswer:'',
+            finishedAll:false,
+            count:0,
+            generalReport:[]
         }
     },
     mounted(){
@@ -98,9 +110,6 @@ export default {
         }
     },
     methods:{
-        imgTransform(n = 0, scaleValue = 0.75){
-            return {transform:`rotate(${n * 90}deg) scale(${scaleValue})`}
-        },
         changeToNextTest(){
             const nextTest = this.$store.getters.getNextTest
             this.$store.commit('setCurrentTest', nextTest)
@@ -119,19 +128,23 @@ export default {
                 }
             }   
         },
+        generateUserReport(){
+            this.finishedAll =true
+            this.generalReport =  this.$store.state.generalReport
+        },
          repeatCurrentTest(){
             this.count = 0;
             this.numberOfCorrectAnswers=0;
+            this.firstAnswer = '';
+            this.secondAnswer = '';
+            this.finishedAll = false
             this.$store.commit('removeFromGeneralReport', this.currentTest)
         }
-    }
+        
+    } 
 }
 </script>
 
 <style>
-    .my-container{
-        background-color: gray;
-        display: flex;
-        flex-direction: column;
-    }
+    
 </style>

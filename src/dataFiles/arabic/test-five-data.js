@@ -1,6 +1,13 @@
 module.exports={ 
-    name:'Light Sensitivity',
-    instructionMsg:'Indicate the direction of each figure',
+    name:'حساسية الضوء',
+    instructionMsg:'	عليك التحديد إلى أي اتجاه يشير ذلك الجانب المفتوح c في كل مرة',
+    instructionItems:[
+        {id:1, modalContent:'(قد تحتاج لشخص آخر لمساعدتك للضغط على السهمl) حافظ على مسافة 1 متر بينك وبين الشاشة', sideContent:'حافظ على مسافة 1 متر بينك وبين الشاشة'},
+        {id:2, modalContent:'إذا كنت تلبس نظارة طبية أو العدسات فتأكد من ارتدائها أثناء الاختبار', sideContent:'إتأكد من ارتداء أثناء الاختبار'},
+        {id:3, modalContent:'قم بتغطية عينك اليسرى أو اليمنى دون الضغط على الجفن.', sideContent:'قم بتغطية عينك اليسرى أو اليمنى '},
+        {id:4, modalContent:' (C) في كل مرة عليك التحديد إلى أي اتجاه يشير ذلك الجانب المفتوح ', sideContent:' (C) عليك التحديد إلى أي اتجاه يشير ذلك الجانب المفتوح '}
+        
+    ],
     tests:[
         {id:0, correct_answer:'right', degreeOfRotation:0, scale:0.25, opacity: 1},
         {id:1, correct_answer:'down', degreeOfRotation:1, scale:0.22, opacity:0.9},
@@ -25,20 +32,17 @@ module.exports={
         {id:20, correct_answer:'right', degreeOfRotation:0, scale:0.15, opacity:0.4},
         {id:21, correct_answer:'down', degreeOfRotation:1, scale:0.11, opacity:0.3},
     ],
-    instructionItems:[
-        {id:1, modalContent:' Place yourself 1 meter from the screen', sideContent:'Distance: 1 meter'},
-        {id:2, modalContent:'If you have glasses for distance vision or glasses with progressive lenses, keep them on.', sideContent:'Keep your glasses on'},
-        {id:3, modalContent:'Without pressing on the eyelid, cover your left/right eye with your hand.', sideContent:'Cover your left eye'},
-        {id:4, modalContent:' Indicate which way the open side of the (C) is facing with your keyboard or mouse.', sideContent:' Indicate the direction (C)'}
-        
-    ],
     testCount: 20,
     numberOfCorrectAnswers:0,
     report:{
-        normal:'Congratulations, your sensitivity to contrasts in both eyes seems good.',
-        abnormalOneEye:`You seem to have difficulties in seeing subtle contrasts with one of your eyes.
-        We recommend you have a vision exam with an eye care professional.`,
-        abnormalTwoEye:`You have difficulties in seeing subtle contrasts with both eyes.
-        We recommend you have a vision exam with an eye care professional.`
+        normal:`	تهانينا، لا يبدو أن لديك مشكلة حساسية الضوء.
+        لا تتردد في إعادة هذا الاختبار بانتظام لمراقبة نظرك.
+        للتحقق من صحة عينيك، لا تتردد في تحديد موعد مع أخصائي رعاية العيون.
+        `,
+        abnormalOneEye:`	يبدو أن لديك مشكلة في احدى عينيك لحساسية الضوء
+         للتأكد نوصيك بإجراء اختبار نظر مع أخصائي العيون.
+        `,
+        abnormalTwoEye:`3-	يبدو ان لديك مشكلة في احدى عينيك لحساسية الضوء
+         للتأكد نوصيك بإجراء اختبار نظر مع أخصائي العيون.`
     }
   }

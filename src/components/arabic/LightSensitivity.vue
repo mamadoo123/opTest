@@ -1,19 +1,18 @@
 <template>
     <b-container class="mx-auto">
-        <b-modal v-once id="starter-modal" centered :title="$store.getters.getCurrentTest.name" 
+         <b-modal v-once id="starter-modal" centered :title="$store.getters.getCurrentArabicTest.name" 
                          ok-only no-close-on-esc no-close-on-backdrop hide-header-close>
                     <div class="container text-center">
-                        <h3 class="my-4">Instructions</h3>
+                        <h3 class="my-4">التعليمات</h3>
 
-                        <b-list-group class="text-center">
+                        <b-list-group class="text-center" dir="rtl">
                             <b-list-group-item v-for="(item, index) in instructionItems" :key="item.id">
                                 <p v-if="item.modalContent"><span>{{index +1}} - </span> {{item.modalContent}}</p> 
                             </b-list-group-item>
                         </b-list-group>
-                    </div>
-                    
+                    </div>     
         </b-modal>
-        
+
         <div v-if="!finished && report === null">
             <div>
                 <p>{{currentTest.instructionMsg}}</p>
@@ -28,7 +27,7 @@
                 <b-button variant="outline-primary" 
                     @click="getNextImage(directions[0])"
                 >
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-right"></i>
                 </b-button>
                 <b-img src="https://upload.wikimedia.org/wikipedia/ja/thumb/e/ea/Landolt_ring_0.png/480px-Landolt_ring_0.png"
                   :style="imgTransform(currentTest.tests[0].degreeOfRotation, currentTest.tests[0].scale, currentTest.tests[0].opacity)"
@@ -36,7 +35,7 @@
                 <b-button variant="outline-primary" 
                     @click="getNextImage(directions[2])"
                 >
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-arrow-left"></i>
                 </b-button>
             </div>
             <div>
@@ -60,18 +59,18 @@
             <p>
                 {{report}}
             </p>
-            <b-button class="mx-2 px-5" variant="outline-primary" @click="repeatCurrentTest" >Try Test Agian</b-button>
-            <b-button variant="outline-primary" @click="changeToNextTest" >Go To {{nextTestName}} Test</b-button>
+            <b-button class="mx-2 px-5" variant="outline-primary" @click="repeatCurrentTest" >اعادة الاختبار</b-button>
+            <b-button variant="outline-primary" @click="changeToNextTest" >  عمل اختبار {{nextTestName}}</b-button>
         </div>
     </b-container>
 </template>
 <script>
-import testData from '../dataFiles/test-five-data.js'
+import testData from '../../dataFiles/arabic/test-five-data'
 
 export default {
     data:function(){
         return{
-            directions:['left','up','right','down'],
+            directions:['right','up','left','down'],
             currentTest: testData,
             tests:testData.tests,
             count:0,
@@ -88,15 +87,15 @@ export default {
         //get the succesive test from the store
         //then assign it to Go To Nest test name property
         nextTestName(){
-            return this.$store.getters.getNextTest.name
+            return this.$store.getters.getNextArabicTest.name
         },
         instructionItems: function(){
-            const currentTest = this.$store.getters.getCurrentTest;
+            const currentTest = this.$store.getters.getCurrentArabicTest;
             return currentTest.instructionItems
         },
         report: function(){
             //Find The Report Of Given Test
-            const reportFound = this.$store.state.generalReport.find(report => report.testName === this.currentTest.name)
+            const reportFound = this.$store.state.generalArabicReport.find(report => report.testName === this.currentTest.name)
             if(!reportFound){
                 //If the report is not found it means the test has
                 //to be rendered 
@@ -131,8 +130,8 @@ export default {
             return {transform:`rotate(${n * 90}deg) scale(${scaleValue})`, maxWidth:'50%', opacity}
         },
         changeToNextTest(){
-            const nextTest = this.$store.getters.getNextTest
-            this.$store.commit('setCurrentTest', nextTest)
+            const nextTest = this.$store.getters.getNextArabicTest
+            this.$store.commit('setCurrentArabicTest', nextTest)
         },
         getNextImage(event){
             if(this.count === 19){
@@ -141,17 +140,17 @@ export default {
                 const finalResult = (correctAnswers / totalCount)*100
                 if(finalResult <= 50){
                     //Add report object to generalReport array in the store
-                    this.$store.commit('saveToGeneralReport',{testName:this.currentTest.name ,testReport:this.currentTest.report.abnormalTwoEye})
+                    this.$store.commit('saveToGeneralArabicReport',{testName:this.currentTest.name ,testReport:this.currentTest.report.abnormalTwoEye})
                 }else if(finalResult <= 70){
-                    this.$store.commit('saveToGeneralReport',{testName:this.currentTest.name ,testReport:this.currentTest.report.abnormalOneEye})
+                    this.$store.commit('saveToGeneralArabicReport',{testName:this.currentTest.name ,testReport:this.currentTest.report.abnormalOneEye})
                 }else{
-                    this.$store.commit('saveToGeneralReport',{testName:this.currentTest.name ,testReport:this.currentTest.report.normal})
+                    this.$store.commit('saveToGeneralArabicReport',{testName:this.currentTest.name ,testReport:this.currentTest.report.normal})
                 }
             }else{
                 this.count++
                 if(event === this.currentTest.tests[0].correct_answer){
                     this.numberOfCorrectAnswers++;
-                   // window.console.log("points:"+this.numberOfCorrectAnswers)
+                   
                 }
                 const remainingTests = this.currentTest.tests.filter( test => test !== this.currentTest.tests[0])
                 this.currentTest.tests = remainingTests
@@ -162,7 +161,7 @@ export default {
             this.currentTest.tests = this.tests;
             this.count = 0;
             this.numberOfCorrectAnswers=0;
-            this.$store.commit('removeFromGeneralReport', this.currentTest)
+            this.$store.commit('removeFromGeneralArabicReport', this.currentTest)
         }
     } 
 }

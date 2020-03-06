@@ -1,5 +1,5 @@
 {
-  "name": "first-try",
+  "name": "vtest",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,8 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.4.3",
     "vue": "^2.6.10",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
@@ -40,5 +41,14 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "description": "```\r npm install\r ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/andalusia_remote/visiontest.git"
+  },
+  "author": "mohamed-khamis",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/andalusia_remote/visiontest#readme"
 }
